@@ -2,4 +2,5 @@
     <string name="app_name">Clima</string>
     <string name="enter_city_name">Enter city name</string>
     <string name="city_name"></string>
+    <string name="open_weather_maps_app_id">92a6296f9454be5cc4fdc04cd99d54e4</string>
 </resources>
