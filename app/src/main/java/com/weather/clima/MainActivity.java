@@ -1,5 +1,6 @@
 package com.weather.clima;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +18,8 @@ import com.weather.clima.com.weather.clima.service.JSONDataParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView icon;
     Button ok;
     JSONObject data;
-    String user_city;
+    String FILENAME = "current_city";
 
 
     @Override
@@ -49,13 +52,35 @@ public class MainActivity extends AppCompatActivity {
         ok = (Button) findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                user_city = city_name_edit_text.getText().toString();
+                String user_city = city_name_edit_text.getText().toString();
                 System.out.println("user_city = " + user_city);
                 getJSON(user_city);
+                try {
+                    saveCurrentCityNameInInternalStorage(user_city);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         icon = (ImageView) findViewById(R.id.weather_icon);
 
+    }
+
+    public void saveCurrentCityNameInInternalStorage(String city_name) throws IOException {
+        FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+        fos.write(city_name.getBytes());
+        fos.close();
+    }
+
+    public String getWeatherOfLastCityEntered() throws IOException {
+        FileInputStream fin = openFileInput(FILENAME);
+        int c;
+        String city_name = "";
+        while ((c = fin.read()) != -1) {
+            city_name = city_name + Character.toString((char) c);
+        }
+        return city_name;
     }
 
     public void getJSON(final String city_name) {
@@ -112,6 +137,20 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String city_name = "";
+        try {
+            city_name = getWeatherOfLastCityEntered();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // auto load weather of last city entered by user.
+        if (city_name != null && !city_name.isEmpty()) {
+            getJSON(city_name);
+        }
+    }
 
     public Bitmap getBitmapFromURL(String imageUrl) {
         try {
