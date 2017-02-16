@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements
                     System.out.println("user_city = " + user_city);
                     getJSONByCityName(user_city);
                 }
+                hideKeyboard();
             }
         });
         locate_me.setOnClickListener(new View.OnClickListener() {
@@ -93,9 +95,17 @@ public class MainActivity extends AppCompatActivity implements
                 if (mLatitudeLabel != null && mLongitudeLabel != null) {
                     getJSONByCoordinate(mLatitudeLabel, mLongitudeLabel);
                 }
+                hideKeyboard();
             }
         });
+    }
 
+    private void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void saveCurrentCityNameInInternalStorage(String city_name) throws IOException {
