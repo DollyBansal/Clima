@@ -58,8 +58,8 @@ public class JSONDataParser {
         return iconUrl;
     }
 
-    public static String getCurrentDateAndTime(JSONObject data) throws JSONException {
-        DateFormat df = DateFormat.getDateTimeInstance();
+    public static String getCurrentDate(JSONObject data) throws JSONException {
+        DateFormat df = DateFormat.getDateInstance();
         String updatedOn = df.format(new Date(data.getLong(CURRENT_DATE_TIME) * 1000));
         System.out.println("updatedOn = " + updatedOn);
         return updatedOn;

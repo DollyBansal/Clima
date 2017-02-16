@@ -4,39 +4,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".8"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_weight=".7"
+        android:gravity="center">
 
         <EditText
             android:id="@+id/enter_city_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_weight=".8"
+            android:layout_marginTop="20dp"
             android:hint="@string/enter_city_name"
             android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/locate_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Locate Me" />
 
         <Button
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_weight=".2"
+            android:layout_alignBottom="@+id/enter_city_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
             android:text="OK" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:layout_weight=".2">
+        android:layout_weight=".3">
 
         <TextView
             android:id="@+id/city_name"
